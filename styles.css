@@ -84,7 +84,7 @@ body {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 860px;
+  max-width: 720px;
   margin: 0 auto;
   padding:
     max(22px, env(safe-area-inset-top))
@@ -426,9 +426,9 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 10px;
   min-height: 104px;
-  padding: 18px 52px 16px 14px;
+  padding: 18px 16px 16px 14px;
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   background: var(--card);
@@ -473,12 +473,12 @@ body {
 
 .habit-delete {
   position: absolute;
-  top: 8px;
-  right: 12px;
+  top: 7px;
+  right: 8px;
   display: grid;
   place-items: center;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -506,11 +506,11 @@ body {
   display: grid;
   flex: none;
   place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 15px;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
   background: var(--mint-soft);
-  font-size: 25px;
+  font-size: 24px;
   transition: transform 0.18s ease;
 }
 
@@ -886,7 +886,42 @@ body {
   }
 
   .habit-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .habit-item {
+    min-height: 98px;
+    gap: 8px;
+    padding: 14px 11px 12px;
+  }
+
+  .habit-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 20px;
+  }
+
+  .habit-name {
+    font-size: 14px;
+  }
+
+  .habit-check {
+    width: 23px;
+    height: 23px;
+  }
+
+  .habit-delete {
+    top: 6px;
+    right: 7px;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+  }
+
+  .habit-time {
+    font-size: 11px;
   }
 
   .ring-wrap,

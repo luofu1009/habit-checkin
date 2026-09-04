@@ -93,6 +93,7 @@
 
   let data = readData();
   let today = todayKey();
+  let lastCelebrationAt = 0;
 
   function sortedHabits() {
     return data.habits
@@ -310,6 +311,8 @@
       checkins[id] = time;
     } else {
       delete checkins[id];
+      // 取消勾选后允许当天再次触发庆祝，方便测试和补救没看到的动画
+      delete data.celebrated[today];
     }
     data.checkins[today] = checkins;
     writeData(data);
@@ -335,14 +338,6 @@
     if (!cleanName) {
       showToast('先输入一个想坚持的习惯吧');
       habitInput.focus();
-      return;
-    }
-
-    const duplicated = data.habits.some(function (habit) {
-      return habit.name.toLowerCase() === cleanName.toLowerCase();
-    });
-    if (duplicated) {
-      showToast('已经添加过「' + cleanName + '」了');
       return;
     }
 
@@ -396,8 +391,10 @@
     const done = Object.keys(todayCheckins()).filter(function (id) { return findHabit(id); }).length;
     if (done !== total) return;
     if (data.celebrated[today]) return;
+    if (Date.now() - lastCelebrationAt < 3000) return;
 
     data.celebrated[today] = true;
+    lastCelebrationAt = Date.now();
     writeData(data);
     showCelebrationBanner();
     launchConfetti();

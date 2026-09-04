@@ -609,9 +609,19 @@
     presetPanel.hidden = true;
   }
 
-  function schedulePresetHide() {
+  // 用“鼠标进入/离开整个弹窗区域”判定，避免从输入框滑到候选词时提前关闭
+  let pointerInsidePreset = false;
+
+  function presetPointerEnter() {
+    pointerInsidePreset = true;
     clearTimeout(presetHideTimer);
-    presetHideTimer = setTimeout(hidePresetPanel, 120);
+    showPresetPanel();
+  }
+
+  function presetPointerLeave() {
+    pointerInsidePreset = false;
+    clearTimeout(presetHideTimer);
+    presetHideTimer = setTimeout(hidePresetPanel, 260);
   }
 
   /* ---------------- 事件绑定 ---------------- */
@@ -622,7 +632,10 @@
 
   habitInput.addEventListener('focus', showPresetPanel);
   habitInput.addEventListener('click', showPresetPanel);
-  inputWrap.addEventListener('mouseleave', schedulePresetHide);
+  inputWrap.addEventListener('mouseenter', presetPointerEnter);
+  inputWrap.addEventListener('mouseleave', presetPointerLeave);
+  presetPanel.addEventListener('mouseenter', presetPointerEnter);
+  presetPanel.addEventListener('mouseleave', presetPointerLeave);
 
   document.addEventListener('click', function (event) {
     if (!inputWrap.contains(event.target)) hidePresetPanel();

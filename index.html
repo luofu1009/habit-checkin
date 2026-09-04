@@ -3,57 +3,94 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f2f6f3" />
-    <title>每日打卡</title>
+    <meta name="theme-color" content="#edf4f0" />
+    <title>习惯打卡</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div id="banner" class="banner" role="status" aria-live="polite" hidden>
-      <span id="bannerText"></span>
-    </div>
+    <div class="bg-pattern" aria-hidden="true"></div>
+    <canvas id="bubbleCanvas" aria-hidden="true"></canvas>
+    <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
 
     <main class="page">
-      <section class="hero">
-        <div class="hero-top">
-          <div>
-            <h1>每日打卡</h1>
-            <p id="dateLabel" class="date-label"></p>
-          </div>
-          <button id="manageBtn" class="manage-btn" type="button" hidden>管理</button>
+      <header class="site-header">
+        <div class="clock" aria-label="当前时间">
+          <time id="headerTime" class="header-time">--:--:--</time>
+          <div id="headerDate" class="header-date">-月-日 · 星期-</div>
         </div>
 
-        <div class="summary" aria-live="polite">
-          <p class="summary-label">今天完成</p>
-          <p class="summary-count">
-            <strong id="doneCount">0</strong><span class="slash">/</span><span id="totalCount" class="total">0</span><span class="unit">项</span>
-          </p>
+        <div class="brand">
+          <span class="grass" aria-hidden="true">🌿</span>
+          <h1 class="brand-title">习惯打卡</h1>
         </div>
 
-        <p id="allDone" class="all-done" hidden>全部完成，太棒了 🎉</p>
+        <button id="resetBtn" class="reset-btn" type="button" aria-label="清空所有数据">
+          ↺ 重置
+        </button>
+      </header>
 
-        <div id="progressWrap" class="progress-wrap" hidden>
-          <div class="progress-track">
-            <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+      <section class="stats-card" aria-label="今日进度">
+        <div class="stats-copy">
+          <p class="stats-label">今日进度</p>
+          <p id="encouragement" class="encouragement">先添加一个想坚持的习惯吧</p>
+        </div>
+
+        <div class="ring-wrap">
+          <svg class="ring" viewBox="0 0 120 120" role="img" aria-label="今日完成进度">
+            <defs>
+              <linearGradient id="ringGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#42dda1" />
+                <stop offset="100%" stop-color="#0c9a73" />
+              </linearGradient>
+            </defs>
+            <circle class="ring-track" cx="60" cy="60" r="48" />
+            <circle id="ringProgress" class="ring-progress" cx="60" cy="60" r="48" />
+          </svg>
+          <div class="ring-text">
+            <strong id="ringDone">0</strong>
+            <span id="ringTotal">/0</span>
           </div>
         </div>
       </section>
 
       <form id="addForm" class="add-form" autocomplete="off">
         <label class="sr-only" for="habitInput">新习惯名称</label>
-        <input
-          id="habitInput"
-          class="habit-input"
-          type="text"
-          maxlength="30"
-          placeholder="添加新习惯，例如：喝水"
-        />
+        <div class="input-wrap" id="inputWrap">
+          <input
+            id="habitInput"
+            class="habit-input"
+            type="text"
+            maxlength="30"
+            placeholder="添加习惯，例如：喝水"
+          />
+          <div id="presetPanel" class="preset-panel" hidden>
+            <div class="preset-head">快捷添加</div>
+            <div class="preset-tags" id="presetTags">
+              <button class="preset-tag" type="button" data-name="喝水" data-emoji="💧">💧 喝水</button>
+              <button class="preset-tag" type="button" data-name="运动" data-emoji="🏃">🏃 运动</button>
+              <button class="preset-tag" type="button" data-name="看书" data-emoji="📚">📚 看书</button>
+              <button class="preset-tag" type="button" data-name="早睡" data-emoji="🌙">🌙 早睡</button>
+              <button class="preset-tag" type="button" data-name="冥想" data-emoji="🧘">🧘 冥想</button>
+              <button class="preset-tag" type="button" data-name="写作" data-emoji="✍️">✍️ 写作</button>
+              <button class="preset-tag" type="button" data-name="拉伸" data-emoji="🤸">🤸 拉伸</button>
+              <button class="preset-tag" type="button" data-name="背单词" data-emoji="📝">📝 背单词</button>
+            </div>
+          </div>
+        </div>
         <button id="addBtn" class="add-btn" type="submit">添加</button>
       </form>
 
-      <p id="manageHint" class="manage-hint" hidden>管理模式下不会打勾，点“删除”可移除习惯</p>
-
-      <ul id="habitList" class="habit-list"></ul>
+      <ul id="habitGrid" class="habit-grid"></ul>
     </main>
+
+    <div id="celebrationBanner" class="celebration-banner" hidden>
+      <span class="celebration-emoji" aria-hidden="true">🎉</span>
+      <p class="celebration-title">全部完成啦</p>
+      <p id="celebrationText" class="celebration-sub">今天也超棒</p>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
     <script src="app.js"></script>
   </body>
 </html>
